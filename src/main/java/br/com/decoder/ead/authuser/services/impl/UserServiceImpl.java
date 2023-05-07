@@ -4,6 +4,9 @@ import br.com.decoder.ead.authuser.models.UserModel;
 import br.com.decoder.ead.authuser.repository.UserRepository;
 import br.com.decoder.ead.authuser.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,17 +20,17 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public List<UserModel> findAllUsers() {
+    public List<UserModel> findAll() {
         return userRepository.findAll();
     }
 
     @Override
-    public Optional<UserModel> getById(UUID userId) {
+    public Optional<UserModel> findById(UUID userId) {
         return userRepository.findById(userId);
     }
 
     @Override
-    public void deleteUser(UserModel userModel) {
+    public void delete(UserModel userModel) {
         userRepository.delete(userModel);
     }
 
@@ -37,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean existByUserName(String username) {
+    public boolean existsByUsername(String username) {
         return userRepository.existsByUsername(username);
     }
 
@@ -46,5 +49,9 @@ public class UserServiceImpl implements UserService {
         return userRepository.existsByEmail(email);
     }
 
+    @Override
+    public Page<UserModel> findAll(Specification<UserModel> spec, Pageable pageable) {
+        return userRepository.findAll(spec, pageable);
+    }
 
 }

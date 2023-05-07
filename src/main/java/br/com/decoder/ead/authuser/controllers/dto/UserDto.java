@@ -15,10 +15,10 @@ import java.util.UUID;
 public class UserDto{
 
     public interface UserView{
-        public static interface RegistrationPost{}
-        public static interface UserPut{}
-        public static interface PasswordPut{}
-        public static interface ImagePut{}
+        interface RegistrationPost{}
+        interface UserPut{}
+        interface PasswordPut{}
+        interface ImagePut{}
     }
 
     private UUID userId;
@@ -40,7 +40,7 @@ public class UserDto{
     private String password;
 
     @NotBlank(groups = UserView.PasswordPut.class)
-    @Size(min = 6, max = 20, groups = {UserView.RegistrationPost.class, UserView.PasswordPut.class})
+    @Size(min = 6, max = 20, groups = UserView.PasswordPut.class)
     @JsonView(UserView.PasswordPut.class)
     private String oldPassword;
 

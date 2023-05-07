@@ -26,11 +26,11 @@ public class AuthenticationController {
 
     @PostMapping("/signup")
     public ResponseEntity<Object> registerUser(@RequestBody
-                                                   @Validated(UserDto.UserView.PasswordPut.class)
+                                                   @Validated(UserDto.UserView.RegistrationPost.class)
                                                    @JsonView(UserDto.UserView.RegistrationPost.class)
                                                    UserDto userDto){
 
-        if(userService.existByUserName(userDto.getUsername())){
+        if(userService.existsByUsername(userDto.getUsername())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
         }
 
@@ -41,7 +41,7 @@ public class AuthenticationController {
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
         userModel.setUserStatus(UserStatus.ACTIVE);
-        userModel.setUserType(UserType.STUDENT);
+        userModel.setUserType(UserType.ADMIN);
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
