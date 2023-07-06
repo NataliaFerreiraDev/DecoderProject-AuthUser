@@ -1,4 +1,4 @@
-package br.com.decoder.ead.authuser.controllers.dto;
+package br.com.decoder.ead.authuser.dto;
 
 import br.com.decoder.ead.authuser.valitation.UserNameConstraint;
 import com.fasterxml.jackson.annotation.JsonInclude;

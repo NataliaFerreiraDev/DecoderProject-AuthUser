@@ -1,11 +1,12 @@
 package br.com.decoder.ead.authuser.controllers;
 
-import br.com.decoder.ead.authuser.controllers.dto.UserDto;
+import br.com.decoder.ead.authuser.dto.UserDto;
 import br.com.decoder.ead.authuser.enums.UserStatus;
 import br.com.decoder.ead.authuser.models.UserModel;
-import br.com.decoder.ead.authuser.models.UserType;
+import br.com.decoder.ead.authuser.enums.UserType;
 import br.com.decoder.ead.authuser.services.UserService;
 import com.fasterxml.jackson.annotation.JsonView;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
+@Log4j2
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/auth")
@@ -30,6 +32,7 @@ public class AuthenticationController {
                                                    @JsonView(UserDto.UserView.RegistrationPost.class)
                                                    UserDto userDto){
 
+        log.info("POST registerUser userDTO received: {}", userDto.toString());
         if(userService.existsByUsername(userDto.getUsername())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Error: Username is Already Taken!");
         }
@@ -41,13 +44,24 @@ public class AuthenticationController {
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
         userModel.setUserStatus(UserStatus.ACTIVE);
-        userModel.setUserType(UserType.INSTRUCTOR);
+        userModel.setUserType(UserType.STUDENT);
         userModel.setCreationDate(LocalDateTime.now(ZoneId.of("UTC")));
         userModel.setLastUpdateDate(LocalDateTime.now(ZoneId.of("UTC")));
         userService.save(userModel);
 
+        log.info("POST registerUser userModel saved: {}", userModel.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(userModel);
     }
 
+    @GetMapping("/")
+    public String index(){
+        log.trace("TRACE");
+        log.debug("DEBUG");
+        log.info("INFO");
+        log.warn("WARN");
+        log.error("ERROR");
+
+        return "Logging Spring Boot...";
+    }
 
 }

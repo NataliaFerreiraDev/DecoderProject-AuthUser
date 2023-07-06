@@ -1,4 +1,4 @@
-package br.com.decoder.ead.authuser.models;
+package br.com.decoder.ead.authuser.enums;
 
 public enum UserType {
     ADMIN,
