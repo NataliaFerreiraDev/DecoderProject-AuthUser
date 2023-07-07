@@ -27,13 +27,9 @@ public class UserClient {
     @Autowired
     UtilService utilService;
 
-
-
     public Page<CourseDto> getAllCoursesByUser(UUID userId, Pageable pageable){
-
         List<CourseDto> searchResult = null;
         ResponseEntity<ResponsePageDto<CourseDto>> result = null;
-//        String url = REQUEST_URL_COURSE + utilsService.createUrlGetAllCoursesByUser(userId, pageable);
 
         String url = utilService.createUrlGetAllCoursesByUser(userId, pageable);
 
@@ -51,7 +47,6 @@ public class UserClient {
         log.info("Ending request /courses userId {} ", userId);
 
         return result.getBody();
-
     }
 
 }
