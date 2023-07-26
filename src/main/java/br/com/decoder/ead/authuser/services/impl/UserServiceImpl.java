@@ -1,6 +1,8 @@
 package br.com.decoder.ead.authuser.services.impl;
 
+import br.com.decoder.ead.authuser.models.UserCourseModel;
 import br.com.decoder.ead.authuser.models.UserModel;
+import br.com.decoder.ead.authuser.repository.UserCourseRepository;
 import br.com.decoder.ead.authuser.repository.UserRepository;
 import br.com.decoder.ead.authuser.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    UserCourseRepository userCourseRepository;
+
     @Override
     public List<UserModel> findAll() {
         return userRepository.findAll();
@@ -31,6 +36,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void delete(UserModel userModel) {
+        List<UserCourseModel> userCourseModelList = userCourseRepository.findAllUserCourseIntoCourse(userModel.getUserId());
+        if(!userCourseModelList.isEmpty()){
+            userCourseRepository.deleteAll(userCourseModelList);
+        }
         userRepository.delete(userModel);
     }
 
