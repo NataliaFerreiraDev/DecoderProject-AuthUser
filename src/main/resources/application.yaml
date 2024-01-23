@@ -7,7 +7,7 @@ spring :
   application:
     name: ead-authuser-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/ead-authuser
+    url: jdbc:postgresql://localhost:5432/ead-authuser-v2
     username: postgres
     password: 124578
   jpa:
@@ -33,7 +33,7 @@ logging:
 ead:
   api:
     url:
-      course: 'http://ead-course-service'
+      course: 'http://ead-course-service/ead-course'
 
 eureka:
   client:
